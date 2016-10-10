@@ -91,6 +91,14 @@ func TestDelete(t *testing.T) {
 		if got != want {
 			t.Errorf("length mismatch, got: %v want: %v\n", got, want)
 		}
+		if i < len(input)-1 {
+			want := input[i+1]
+			got := lk.head.value.(string)
+			if want != got {
+				t.Errorf("head mismatch, got: %s want %s\n", want, got)
+			}
+		}
+
 	}
 }
 
