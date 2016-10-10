@@ -1,4 +1,4 @@
-// stack base on https://gist.github.com/bemasher/1777766
+// stack:  https://gist.github.com/bemasher/1777766
 package stack
 
 type Stack struct {
