@@ -1,49 +1,41 @@
-// stack:  https://gist.github.com/bemasher/1777766
 package stack
 
-type Stack struct {
-	top  *Element
-	size int
-}
+// All types satisfy the empty interface, so we can store anything here.
+type Stack []interface{}
 
-type Element struct {
-	value interface{} // All types satisfy the empty interface, so we can store anything here.
-	next  *Element
-}
-
-// Return the stack's length
-func (s *Stack) Len() int {
-	return s.size
+// IsEmpty: check if stack is empty
+func (s *Stack) IsEmpty() bool {
+	return len(*s) == 0
 }
 
 // Push a new element onto the stack
 func (s *Stack) Push(value interface{}) {
-	s.top = &Element{value, s.top}
-	s.size++
+	*s = append(*s, value)
 }
 
-// Remove the top element from the stack and return it's value
-// If the stack is empty, return nil
-func (s *Stack) Pop() (value interface{}) {
-	if s.size > 0 {
-		value, s.top = s.top.value, s.top.next
-		s.size--
-		return
+// Pop: remove and return top element of stack, return false if stack is empty
+func (s *Stack) Pop() (interface{}, bool) {
+	if s.IsEmpty() {
+		var empty interface{}
+		return empty, false
 	}
-	return nil
+
+	i := len(*s) - 1
+	x := (*s)[i]
+	*s = (*s)[:i]
+
+	return x, true
 }
 
-// func main() {
-// 	stack := new(Stack)
+// Peek: return top element of stack, return false if stack is empty
+func (s *Stack) Peek() (interface{}, bool) {
+	if s.IsEmpty() {
+		var empty interface{}
+		return empty, false
+	}
 
-// 	stack.Push("Things")
-// 	stack.Push("and")
-// 	stack.Push("Stuff")
+	i := len(*s) - 1
+	x := (*s)[i]
 
-// 	for stack.Len() > 0 {
-// 		// We have to do a type assertion because we get back a variable of type
-// 		// interface{} while the underlying type is a string.
-// 		fmt.Printf("%s ", stack.Pop().(string))
-// 	}
-// 	fmt.Println()
-// }
+	return x, true
+}
