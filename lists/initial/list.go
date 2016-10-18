@@ -1,4 +1,4 @@
-// List of Integers, Implements List interface
+// List of Integers, Implements list interface
 
 // Initial attempt at implementing list interface. Inefficient, useful for
 // testing against more complex implementations.
