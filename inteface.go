@@ -29,7 +29,7 @@ type List interface {
 
 // Unsorted Set
 type USet interface {
-	Size() int
+	Len() int
 	Add(x interface{}) bool
 	Delete(x interface{})
 	Find(x interface{}) (interface{}, bool)

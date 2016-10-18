@@ -1,12 +1,4 @@
-// Implements list interface
-//
-// type List interface {
-// 	Len() int
-// 	Get(i int) interface{}
-// 	Set(i int, x interface{})
-// 	Insert(i int, x interface{})
-// 	Delete(i int) interface{}
-// }
+// List of Integers, Implements List interface
 
 // Initial attempt at implementing list interface. Inefficient, useful for
 // testing against more complex implementations.
