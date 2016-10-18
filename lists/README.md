@@ -1,8 +1,17 @@
-Lists
-=====
+# Lists
 
-**Implementations of the list interface. see ../interfaces.go**
+## Implementations of the list interface
 
-## initial
+type List interface {
+	Len() int
+	Get(i int) interface{}
+	Set(i int, x interface{})
+	Insert(i int, x interface{})
+	Delete(i int)
+}
+
+** see ../interfaces.go **
+
+### initial
 
 initial attempt, implement functionality without concern for efficiency. 
