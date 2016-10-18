@@ -20,11 +20,11 @@ type Deque interface {
 }
 
 type List interface {
-	Size() int
+	Len() int
 	Get(i int) interface{}
 	Set(i int, x interface{})
 	Insert(i int, x interface{})
-	Delete(i int) interface{}
+	Delete(i int)
 }
 
 // Unsorted Set
