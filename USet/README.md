@@ -10,7 +10,3 @@ type USet interface {
 }
 
 ** see ../interfaces.go **
-
-### initial
-
-initial attempt, implement functionality without concern for efficiency. 
