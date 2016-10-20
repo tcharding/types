@@ -1,9 +1,9 @@
 # Implementations of the USet interface
 
 type USet interface {
-	Len() int
+	Size() int
 	Add(x interface{}) bool
-	Delete(x interface{})
+	Delete(x interface{}) bool
 	Find(x interface{}) (interface{}, bool)
 }
 

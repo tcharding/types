@@ -31,7 +31,7 @@ type List interface {
 type USet interface {
 	Size() int
 	Add(x interface{}) bool
-	Delete(x interface{})
+	Delete(x interface{}) bool
 
 	// Find an item in set, returns item if found and true, false if not
 	// returned item is useful, for example, so one can add (key, value)
@@ -43,7 +43,7 @@ type USet interface {
 type SSet interface {
 	Size() int
 	Add(x interface{}) bool
-	Delete(x interface{})
+	Delete(x interface{}) bool
 
 	// Find an item in set, returns item if found and true, if not found
 	// returns successor item and true. If no successor returns false
