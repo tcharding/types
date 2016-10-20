@@ -13,20 +13,20 @@ func Test(t *testing.T) {
 		set.Add(i)
 	}
 
-	// test Len
-	wantLength := nVals
-	if got := set.Len(); got != wantLength {
-		t.Errorf("set.Len() = %d want: %d\n", got, wantLength)
+	// test Size
+	wantSize := nVals
+	if got := set.Size(); got != wantSize {
+		t.Errorf("set.Size() = %d want: %d\n", got, wantSize)
 	}
 
 	// re-add existing values
 	for i := 0; i < nVals; i++ {
 		set.Add(i)
 	}
-	wantLength = nVals
-	if got := set.Len(); got != wantLength {
-		t.Errorf("After adding existing values\n set.Len() = %d want: %d\n",
-			got, wantLength)
+	wantSize = nVals
+	if got := set.Size(); got != wantSize {
+		t.Errorf("After adding existing values\n set.Size() = %d want: %d\n",
+			got, wantSize)
 	}
 
 	// test Find

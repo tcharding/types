@@ -6,7 +6,7 @@ package uset
 
 type USet map[int]bool
 
-func (s *USet) Len() int {
+func (s *USet) Size() int {
 	return len(*s)
 }
 

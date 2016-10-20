@@ -29,7 +29,7 @@ type List interface {
 
 // Unsorted Set
 type USet interface {
-	Len() int
+	Size() int
 	Add(x interface{}) bool
 	Delete(x interface{})
 
@@ -40,11 +40,14 @@ type USet interface {
 }
 
 // Sorted Set
-type Sset interface {
+type SSet interface {
 	Size() int
 	Add(x interface{}) bool
 	Delete(x interface{})
-	Find(x interface{}) (interface{}, error) // returns the successor if not found
+
+	// Find an item in set, returns item if found and true, if not found
+	// returns successor item and true. If no successor returns false
+	Find(x interface{}) (interface{}, error)
 }
 
 // Priority Queue
