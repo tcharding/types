@@ -1,6 +1,4 @@
-# USets
-
-## Implementations of the USet interface
+# Implementations of the USet interface
 
 type USet interface {
 	Len() int
@@ -10,3 +8,7 @@ type USet interface {
 }
 
 ** see ../interfaces.go **
+
+## integer
+
+Un-ordered set of integers (i.e golang map type)

@@ -8,3 +8,4 @@ Introduction to Algorithms - Cormen, Leiserson, Rivest, Stein
 [Open Data Structures](opendatastructures.org) - Pat Morin  
 
 Use at your own discretion.
+

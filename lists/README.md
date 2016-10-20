@@ -1,6 +1,4 @@
-# Lists
-
-## Implementations of the list interface
+# Implementations of the list interface
 
 type List interface {
 	Len() int
@@ -12,6 +10,6 @@ type List interface {
 
 ** see ../interfaces.go **
 
-### initial
+## initial
 
 initial attempt, implement functionality without concern for efficiency. 
