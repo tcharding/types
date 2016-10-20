@@ -1,140 +1,243 @@
 // Binary Search Tree
 //
 // Reference: Introduction to Algorithms - Cormen, Leiserson, Rivest, Stein
+//
+// Each node contains a key and satellite data, each node contains attributes
+// left, right, and p that point to nodes corresponding to its left child, right
+// child, and parent, respectively. If a child or parent is missing, the
+// appropriate attribute contains nil. The root node is the only node in the
+// tree whose parent is nil.
 
-// Nodes contain a key, satellite data, parent, left child, and right child.
+// The keys in a binary search tree are always sorted.
+// Let x be a node in a binary search tree. If y is a node in the left subtree of
+// x, then y.key <= x.key. If y is a node in the right subtree of x, then
+// y.key >= x.key
 
 package BSTree
 
 type Node struct {
-	// keys are unique across the tree and tree is sorted
+	// Multiple keys of same value permitted
 	// Formally, for any node x
 	// if y is left child of x then y.key < x.key
-	// if y is right child of x then y.key > x.key
+	// if y is right child of x then y.key => x.key
 	key    int
 	data   interface{}
-	parent *Node // parent Node
+	parent *Node // parent node
 	left   *Node // left child
 	right  *Node // right child
 }
 
-// NewTree: create new empty tree
-// NOTE: 'var root Node' will create tree with one node, key value 0
-func NewTree() *Node {
-	return nil
+type Tree struct {
+	root *Node
 }
 
-// NewNode: create node with key and data, parent is without parent
-func NewNode(key int, data interface{}) *Node {
-	return &Node{key, data, nil, nil, nil}
+// Walk tree in order, call fn for each node
+func (t Tree) inorder(n *Node, fn func(n *Node)) {
+	if n != nil {
+		inorderTreeWalk(n.left, fn)
+		fn(n)
+		inorderTreeWalk(n.right, fn)
+	}
 }
 
-// Add x to Node, return true if added
-func (n *Node) Add(key int, data interface{}) (*Node, bool) {
-	var ok bool
-	switch {
-	case n == nil:
-		return NewNode(key, data), true
-	case n.key == key:
-		return n, false // unique keys only
-	case key < n.key:
-		n.left, ok = n.left.Add(key, data)
-		// set parent for case when node was created
-		if n.left.parent == nil {
-			n.left.parent = n
-		}
-		return n, ok
-	case key > n.key:
-		n.right, ok = n.right.Add(key, data)
-		// set parent for case when node was created
-		if n.right.parent == nil {
-			n.right.parent = n
-		}
-		return n, ok
-	}
-	panic("shouldn't get here")
-	return n, false
-}
+// func (t Tree) Add(key int, data interface{}) {
+// 	n := newNode(key, data)
+// 	t.treeInsert(n)
+// }
 
-// Size of tree rooted at Node n
-func (n *Node) Size() int {
-	if n == nil {
-		return 0
-	}
-	return 1 + n.left.Size() + n.right.Size()
-}
+// func (t Tree) Write(w io.Writer) {
+// 	var buf bytes.Buffer
+// 	fn := func(n *Node) {
+// 		buf.WriteString(fmt.Sprintf("%d ", n.key))
+// 	}
 
-// Sum of keys in tree rooted at Node n
-func (n *Node) Sum() int {
-	if n == nil {
-		return 0
-	}
-	return n.key + n.left.Sum() + n.right.Sum()
-}
+// 	buf.WriteString("[ ")
+// 	inorderTreeWalk(t.root, fn)
+// 	buf.WriteRune(']')
+// 	fmt.Fprintf(w, "%v\n", buf)
+// }
 
-// Height of tree rooted at Node n
-func (n *Node) Height() int {
-	if n == nil {
-		return 0
-	}
-	return 1 + max(n.left.Height(), n.right.Height())
-}
+// // newNode: create node with key and data, node has no parent
+// func newNode(key int, data interface{}) *Node {
+// 	return &Node{key, data, nil, nil, nil}
+// }
 
-// Flatten: in order tree walk of tree rooted at Node n
-func (n *Node) Flatten() []int {
-	var xs []int
+// // Add x to node, return true if added
+// func (n *Node) Add(key int, data interface{}) (*Node, bool) {
+// 	var ok bool
+// 	switch {
+// 	case n == nil:
+// 		return NewNode(key, data), true
+// 	case n.key == key:
+// 		return n, false // unique keys only
+// 	case key < n.key:
+// 		n.left, ok = n.left.Add(key, data)
+// 		// set parent for case when node was created
+// 		if n.left.parent == nil {
+// 			n.left.parent = n
+// 		}
+// 		return n, ok
+// 	case key > n.key:
+// 		n.right, ok = n.right.Add(key, data)
+// 		// set parent for case when node was created
+// 		if n.right.parent == nil {
+// 			n.right.parent = n
+// 		}
+// 		return n, ok
+// 	}
+// 	panic("shouldn't get here")
+// 	return n, false
+// }
 
-	if n == nil {
-		return xs
-	}
-	if n.left != nil {
-		xs = append(xs, n.left.Flatten()...)
-	}
+// // Size of tree rooted at node n
+// func (n *Node) Size() int {
+// 	if n == nil {
+// 		return 0
+// 	}
+// 	return 1 + n.left.Size() + n.right.Size()
+// }
 
-	xs = append(xs, n.key)
+// // Sum of keys in tree rooted at node n
+// func (n *Node) Sum() int {
+// 	if n == nil {
+// 		return 0
+// 	}
+// 	return n.key + n.left.Sum() + n.right.Sum()
+// }
 
-	if n.right != nil {
-		xs = append(xs, n.right.Flatten()...)
-	}
+// // Height of tree rooted at node n
+// func (n *Node) Height() int {
+// 	if n == nil {
+// 		return 0
+// 	}
+// 	return 1 + max(n.left.Height(), n.right.Height())
+// }
 
-	return xs
-}
+// func max(a, b int) int {
+// 	if a < b {
+// 		return b
+// 	}
+// 	return a
+// }
 
-// Max: return maximum key value
-func (n *Node) Max() int {
-	if n.right == nil {
-		return n.key
-	}
-	return n.right.Max()
-}
+// // Flatten: in order tree walk of tree rooted at node n
+// func (n *Node) Flatten() []int {
+// 	var xs []int
 
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
+// 	if n == nil {
+// 		return xs
+// 	}
+// 	if n.left != nil {
+// 		xs = append(xs, n.left.Flatten()...)
+// 	}
 
-// Min: return minimum key value
-func (n *Node) Min() int {
-	if n.left == nil {
-		return n.key
-	}
-	return n.left.Min()
-}
+// 	xs = append(xs, n.key)
 
-// Elem: true if node with key exists in tree rooted at Node n
-func (n *Node) Elem(key int) bool {
-	switch {
-	case n == nil:
-		return false
-	case key == n.key:
-		return true
-	case key < n.key:
-		return n.left.Elem(key)
-	case key > n.key:
-		return n.right.Elem(key)
-	}
-	panic("shouldn't get here")
-	return false
-}
+// 	if n.right != nil {
+// 		xs = append(xs, n.right.Flatten()...)
+// 	}
+
+// 	return xs
+// }
+
+// // Max: return maximum key value
+// func (n *Node) Max() int {
+// 	for n.right != nil {
+// 		n = n.right
+// 	}
+// 	return n.key
+// }
+
+// // Min: return minimum key value
+// func (n *Node) Min() int {
+// 	for n.left != nil {
+// 		n = n.left
+// 	}
+// 	return n.key
+// }
+
+// // Elem: true if node with key exists in tree rooted at node n
+// func (n *Node) Elem(key int) bool {
+// 	for {
+// 		if n == nil {
+// 			return false
+// 		}
+// 		if n.key == key {
+// 			return true
+// 		}
+// 		if key < n.key {
+// 			n = n.left
+// 		} else {
+// 			n = n.right
+// 		}
+// 	}
+// 	panic("shouldn't get here")
+// 	return false
+// }
+
+// // Successor: return smallest key from tree rooted at node n bigger than key
+// func (n *Node) Successor(key int) (int, bool) {
+// 	x, ok := n.get(key)
+// 	if !ok {
+// 		panic("cannot call successor with a non-existent key")
+// 	}
+// 	if x.right != nil {
+// 		return x.right.Min(), true
+// 	}
+// 	y := x.parent
+// 	for {
+// 		if y == nil {
+// 			return 0, false
+// 		}
+// 		if x == y.left {
+// 			return y.key, true
+// 		}
+// 		x = y
+// 		y = y.parent
+// 	}
+// 	panic("shouldn't get here")
+// 	return 0, false
+// }
+
+// // Predecessor: return biggest key from tree rooted at node n smaller than key
+// func (n *Node) Predecessor(key int) (int, bool) {
+// 	x, ok := n.get(key)
+// 	if !ok {
+// 		panic("cannot call predecessor with a non-existent key")
+// 	}
+// 	if x.left != nil {
+// 		return x.left.Max(), true
+// 	}
+
+// 	y := x.parent
+// 	for {
+// 		if y == nil {
+// 			return 0, false
+// 		}
+// 		if x == y.right {
+// 			return y.key, true
+// 		}
+// 		x = y
+// 		y = x.parent
+// 	}
+// 	return 0, false
+// }
+
+// // get node for key
+// func (n *Node) get(key int) (*Node, bool) {
+// 	for {
+// 		if n == nil {
+// 			return nil, false
+// 		}
+// 		if n.key == key {
+// 			return n, true
+// 		}
+// 		if key < n.key {
+// 			n = n.left
+// 		} else {
+// 			n = n.right
+// 		}
+// 	}
+// 	panic("shouldn't get here")
+// 	return nil, false
+// }
