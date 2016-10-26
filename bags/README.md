@@ -15,3 +15,7 @@ type Bag interface {
 ## integer
 
 bag of integers
+
+## byte
+
+bag of bytes. Useful for storing ASCII encoded characters.
