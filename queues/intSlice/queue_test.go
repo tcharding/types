@@ -1,4 +1,4 @@
-package intSlice
+package queue
 
 import "testing"
 

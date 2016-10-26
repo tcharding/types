@@ -7,7 +7,7 @@
 // 	Dequeue() (interface{}, bool)
 // }
 
-package intSlice
+package queue
 
 type Queue []int
 
