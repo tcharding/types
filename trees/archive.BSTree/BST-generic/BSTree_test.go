@@ -1,17 +1,27 @@
 package BSTree
 
-import "testing"
+import (
+	"fmt"
+	"os"
+	"testing"
+)
 
-func TestAdd(t *testing.T) {
+func TestAddBasic(t *testing.T) {
 	var tr Tree
-	ok := tr.Add(1, nil)
-	if !ok {
-		t.Errorf("not ok to add initial value\n")
-	}
+	tr.Add(1, nil)
+}
 
-	ok = tr.Add(1, nil)
-	if ok {
-		t.Errorf("ok to add repeated value when it should not be\n")
+// test test file utilities
+func TestUtils(t *testing.T) {
+	var tr Tree
+	tr.Add(1, nil)
+	// tr := testTree()
+	fmt.Fprintf(os.Stderr, "tr: %v\n", tr)
+	keys := inorderKeySlice(tr)
+	// want := []int{2, 4, 6, 7, 8, 9}
+	want := []int{1}
+	if !equal(keys, want) {
+		t.Errorf("test utilities failed, keys: %v want: %v\n", keys, want)
 	}
 }
 
@@ -26,9 +36,31 @@ func testTree() Tree {
 	var tr Tree
 	xs := []int{6, 4, 8, 2, 7, 9}
 	for _, x := range xs {
-		_ = tr.Add(x, nil)
+		tr.Add(x, nil)
 	}
 	return tr
+}
+
+func inorderKeySlice(tr Tree) []int {
+	var keys []int
+	fn := func(n *Node) {
+		fmt.Fprintf(os.Stderr, "adding: %d\n", n.key)
+		keys = append(keys, n.key)
+	}
+	inorderTreeWalk(tr.root, fn)
+	return keys
+}
+
+func equal(a, b []int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // func TestPrintTree(t *testing.T) {

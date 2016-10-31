@@ -15,8 +15,11 @@
 
 package BSTree
 
+type Tree struct {
+	root *Node // May contain multiple keys of the same value
+}
+
 type Node struct {
-	// Multiple keys of same value permitted
 	// Formally, for any node x
 	// if y is left child of x then y.key < x.key
 	// if y is right child of x then y.key => x.key
@@ -27,23 +30,52 @@ type Node struct {
 	right  *Node // right child
 }
 
-type Tree struct {
-	root *Node
+func newNode(key int, data interface{}) Node {
+	var n Node
+	n.key = key
+	n.data = data
+	n.parent = nil
+	n.left = nil
+	n.right = nil
+	return n
+}
+
+// Add: create node from data and key, insert into tree
+func (t Tree) Add(key int, data interface{}) {
+	n := newNode(key, data)
+	t.insert(&n)
+}
+
+// insert node n into t
+func (t Tree) insert(z *Node) {
+	var x, y *Node
+	y = nil
+	x = t.root
+	for x != nil {
+		y = x
+		if z.key < x.key {
+			x = x.left
+		} else {
+			x = x.right
+		}
+	}
+	if y == nil {
+		t.root = z // t was empty
+	} else if z.key < y.key {
+		y.left = z
+	} else {
+		y.right = z
+	}
 }
 
 // Walk tree in order, call fn for each node
-func (t Tree) inorder(n *Node, fn func(n *Node)) {
+func inorderTreeWalk(n *Node, fn func(n *Node)) {
 	if n != nil {
 		inorderTreeWalk(n.left, fn)
 		fn(n)
 		inorderTreeWalk(n.right, fn)
 	}
 }
-
-// func (t Tree) Add(key int, data interface{}) {
-// 	n := newNode(key, data)
-// 	t.treeInsert(n)
-// }
 
 // func (t Tree) Write(w io.Writer) {
 // 	var buf bytes.Buffer
