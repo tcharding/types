@@ -37,7 +37,7 @@ func (t *Tree) Add(key int) {
 	t.insert(n)
 }
 
-// newNode: create a new node from key and data
+// newNode: create a new node from key
 func newNode(key int) *Node {
 	var n Node
 	n.key = key
@@ -293,7 +293,7 @@ func (t *Tree) Elem(key int) bool {
 	return t.root.elem(key)
 }
 
-// elem: true if node with key exists in tree rooted at node n
+// elem: true if node with key exists in tree rooted at node n, iterative version
 func (n *Node) elem(key int) bool {
 	found := false
 	for {
@@ -312,6 +312,19 @@ func (n *Node) elem(key int) bool {
 	}
 	return found
 }
+
+// // elem: true if node with key exists in tree rooted at node n, recursive version
+// func (n *Node) elem(key int) bool {
+// 	if n == nil {
+// 		return false
+// 	}
+// 	if key == n.key {
+// 		return true
+// 	} else if key < n.key {
+// 		return n.left.elem(key)
+// 	}
+// 	return n.right.elem(key)
+// }
 
 func max(a, b int) int {
 	if a > b {
