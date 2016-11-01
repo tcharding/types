@@ -161,6 +161,65 @@ func TestDelete(t *testing.T) {
 
 }
 
+func TestSize(t *testing.T) {
+	var tr Tree
+	xs := []int{3, 0, 5, 1, 2, 4}
+	for _, x := range xs {
+		tr.Add(x)
+	}
+
+	for i := 0; i < 6; i++ {
+		want := 6 - i
+		size := tr.Size()
+		if size != want {
+			t.Errorf("tr.Size() = %d want: %d\n", size, want)
+		}
+		tr.Delete(i)
+	}
+}
+
+func TestSum(t *testing.T) {
+	var tr Tree
+	xs := []int{3, 0, 5, 1, 2, 4}
+	for _, x := range xs {
+		tr.Add(x)
+	}
+	total := sum(xs)
+
+	for i := 0; i < 6; i++ {
+		got := tr.Sum()
+		want := total
+		if got != want {
+			t.Errorf("tr.Size() = %d want: %d\n", got, want)
+		}
+		tr.Delete(i)
+		total -= i
+	}
+}
+
+func TestElem(t *testing.T) {
+	// []int{2, 4, 6, 7, 8, 9}
+	tr := testcase()
+	var tests = []struct {
+		key  int
+		want bool
+	}{
+		{2, true},
+		{9, true},
+		{6, true},
+
+		{-1, false},
+		{5, false},
+		{10, false},
+	}
+
+	for _, test := range tests {
+		if got := tr.Elem(test.key); got != test.want {
+			t.Errorf("tr.Elem(%d) failed\n")
+		}
+	}
+}
+
 func equal(a, b []int) bool {
 	if len(a) != len(b) {
 		return false
@@ -171,4 +230,12 @@ func equal(a, b []int) bool {
 		}
 	}
 	return true
+}
+
+func sum(xs []int) int {
+	total := 0
+	for _, x := range xs {
+		total += x
+	}
+	return total
 }

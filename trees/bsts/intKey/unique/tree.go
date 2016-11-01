@@ -234,171 +234,88 @@ func (n *Node) predecessor() *Node {
 	return p
 }
 
-// // Predecessor: return biggest key from tree rooted at node n smaller than key
-// func (n *Node) Predecessor(key int) (int, bool) {
-// 	if x.left != nil {
-// 		return x.left.Max(), true
-// 	}
+// Size of tree
+func (t *Tree) Size() int {
+	if t.root == nil {
+		return 0
+	}
+	return t.root.size()
+}
 
-// 	y := x.parent
-// 	for {
-// 		if y == nil {
-// 			return 0, false
-// 		}
-// 		if x == y.right {
-// 			return y.key, true
-// 		}
-// 		x = y
-// 		y = x.parent
-// 	}
-// 	return 0, false
-// }
+// size of tree rooted at node n
+func (n *Node) size() int {
+	total := 0
+	fn := func(n *Node) {
+		if n != nil {
+			total++
+		}
+	}
+	n.inorder(fn)
+	return total
+}
 
-// func (t Tree) Write(w io.Writer) {
-// 	var buf bytes.Buffer
-// 	fn := func(n *Node) {
-// 		buf.WriteString(fmt.Sprintf("%d ", n.key))
-// 	}
+// Sum keys in tree
+func (t *Tree) Sum() int {
+	if t.root == nil {
+		return 0
+	}
+	return t.root.sum()
+}
 
-// 	buf.WriteString("[ ")
-// 	inorderTreeWalk(t.root, fn)
-// 	buf.WriteRune(']')
-// 	fmt.Fprintf(w, "%v\n", buf)
-// }
+// Sum of keys in tree rooted at node n
+func (n *Node) sum() int {
+	total := 0
+	fn := func(n *Node) {
+		if n != nil {
+			total += n.key
+		}
+	}
+	n.inorder(fn)
+	return total
 
-// // newNode: create node with key and data, node has no parent
-// func newNode(key int, data interface{}) *Node {
-// 	return &Node{key, data, nil, nil, nil}
-// }
+}
 
-// // Add x to node, return true if added
-// func (n *Node) Add(key int, data interface{}) (*Node, bool) {
-// 	var ok bool
-// 	switch {
-// 	case n == nil:
-// 		return NewNode(key, data), true
-// 	case n.key == key:
-// 		return n, false // unique keys only
-// 	case key < n.key:
-// 		n.left, ok = n.left.Add(key, data)
-// 		// set parent for case when node was created
-// 		if n.left.parent == nil {
-// 			n.left.parent = n
-// 		}
-// 		return n, ok
-// 	case key > n.key:
-// 		n.right, ok = n.right.Add(key, data)
-// 		// set parent for case when node was created
-// 		if n.right.parent == nil {
-// 			n.right.parent = n
-// 		}
-// 		return n, ok
-// 	}
-// 	panic("shouldn't get here")
-// 	return n, false
-// }
+// Height: longest path from root of tree to any leaf
+func (t *Tree) Height() int {
+	return t.root.height()
+}
 
-// // Size of tree rooted at node n
-// func (n *Node) Size() int {
-// 	if n == nil {
-// 		return 0
-// 	}
-// 	return 1 + n.left.Size() + n.right.Size()
-// }
+// height of tree rooted at node n
+func (n *Node) height() int {
+	if n == nil {
+		return 0
+	}
+	return 1 + max(n.left.height(), n.right.height())
+}
 
-// // Sum of keys in tree rooted at node n
-// func (n *Node) Sum() int {
-// 	if n == nil {
-// 		return 0
-// 	}
-// 	return n.key + n.left.Sum() + n.right.Sum()
-// }
+// Elem: true if node with key exists in tree
+func (t *Tree) Elem(key int) bool {
+	return t.root.elem(key)
+}
 
-// // Height of tree rooted at node n
-// func (n *Node) Height() int {
-// 	if n == nil {
-// 		return 0
-// 	}
-// 	return 1 + max(n.left.Height(), n.right.Height())
-// }
+// elem: true if node with key exists in tree rooted at node n
+func (n *Node) elem(key int) bool {
+	found := false
+	for {
+		if n == nil {
+			break // found = false
+		}
+		if n.key == key {
+			found = true
+			break
+		}
+		if key < n.key {
+			n = n.left
+		} else {
+			n = n.right
+		}
+	}
+	return found
+}
 
-// func max(a, b int) int {
-// 	if a < b {
-// 		return b
-// 	}
-// 	return a
-// }
-
-// // Flatten: in order tree walk of tree rooted at node n
-// func (n *Node) Flatten() []int {
-// 	var xs []int
-
-// 	if n == nil {
-// 		return xs
-// 	}
-// 	if n.left != nil {
-// 		xs = append(xs, n.left.Flatten()...)
-// 	}
-
-// 	xs = append(xs, n.key)
-
-// 	if n.right != nil {
-// 		xs = append(xs, n.right.Flatten()...)
-// 	}
-
-// 	return xs
-// }
-
-// // Max: return maximum key value
-// func (n *Node) Max() int {
-// 	for n.right != nil {
-// 		n = n.right
-// 	}
-// 	return n.key
-// }
-
-// // Min: return minimum key value
-// func (n *Node) Min() int {
-// 	for n.left != nil {
-// 		n = n.left
-// 	}
-// 	return n.key
-// }
-
-// // Elem: true if node with key exists in tree rooted at node n
-// func (n *Node) Elem(key int) bool {
-// 	for {
-// 		if n == nil {
-// 			return false
-// 		}
-// 		if n.key == key {
-// 			return true
-// 		}
-// 		if key < n.key {
-// 			n = n.left
-// 		} else {
-// 			n = n.right
-// 		}
-// 	}
-// 	panic("shouldn't get here")
-// 	return false
-// }
-
-// // get node for key
-// func (n *Node) get(key int) (*Node, bool) {
-// 	for {
-// 		if n == nil {
-// 			return nil, false
-// 		}
-// 		if n.key == key {
-// 			return n, true
-// 		}
-// 		if key < n.key {
-// 			n = n.left
-// 		} else {
-// 			n = n.right
-// 		}
-// 	}
-// 	panic("shouldn't get here")
-// 	return nil, false
-// }
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
