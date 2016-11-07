@@ -12,5 +12,4 @@ of Big-Oh(log n).
 ## dir list
 
 intKey/ - BST's using integer values as key  
-    unique/ - useful for sets  
-    nonUnique/ - useful for bags  
+ost / - Ordered Statistical Tree  
