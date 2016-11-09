@@ -15,7 +15,7 @@ func MakeHeap(xs []int) *heap {
 		h.xs[i+1] = x
 	}
 	for i := len(xs) / 2; i >= 1; i-- {
-		h.bubble_down(i)
+		h.bubbleDown(i)
 
 	}
 	return &h
@@ -23,7 +23,7 @@ func MakeHeap(xs []int) *heap {
 
 // // MakeHeap: make a minimum heap from values in xs, O(nlog(n))
 // func MakeHeap(xs []int) *heap {
-// 	h := heap{[]int{0}} // heap is 1 indexed
+// 	h := heap{[]int{0}} // heap is 1-indexed
 // 	for _, x := range xs {
 // 		h.Insert(x)
 // 	}
@@ -31,23 +31,23 @@ func MakeHeap(xs []int) *heap {
 // }
 
 func (h *heap) Len() int {
-	return len(h.xs) - 1 // heap is 1 indexed
+	return len(h.xs) - 1 // heap is 1-indexed
 }
 
 // Insert x into the heap
 func (h *heap) Insert(x int) {
 	(*h).xs = append(h.xs, x)
-	h.bubble_up(len(h.xs) - 1)
+	h.bubbleUp(len(h.xs) - 1)
 }
 
-func (h *heap) bubble_up(k int) {
+func (h *heap) bubbleUp(k int) {
 	p, ok := parent(k)
 	if !ok {
 		return // k is root node
 	}
 	if h.xs[p] > h.xs[k] {
 		h.xs[k], h.xs[p] = h.xs[p], h.xs[k]
-		h.bubble_up(p)
+		h.bubbleUp(p)
 	}
 }
 
@@ -67,14 +67,13 @@ func (h *heap) ExtractMin() (int, bool) {
 		return 0, false
 	}
 	v := h.xs[1]
-	li := len(h.xs) - 1
-	h.xs[1] = h.xs[li]
-	(*h).xs = h.xs[:li]
-	h.bubble_down(1)
+	h.xs[1] = h.xs[h.Len()]
+	(*h).xs = h.xs[:h.Len()]
+	h.bubbleDown(1)
 	return v, true
 }
 
-func (h *heap) bubble_down(k int) {
+func (h *heap) bubbleDown(k int) {
 	min := k
 	c := left(k)
 
@@ -88,7 +87,7 @@ func (h *heap) bubble_down(k int) {
 	}
 	if min != k {
 		h.xs[k], h.xs[min] = h.xs[min], h.xs[k]
-		h.bubble_down(min)
+		h.bubbleDown(min)
 	}
 }
 
@@ -104,12 +103,12 @@ func parent(k int) (int, bool) {
 	return k / 2, true
 }
 
-// return index of left child of node at index k
+// get index of left child of node at index k
 func left(k int) int {
 	return 2 * k
 }
 
-// return index of right child of node at index k
+// get index of right child of node at index k
 func right(k int) int {
 	return 2*k + 1
 }
