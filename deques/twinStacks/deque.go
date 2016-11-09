@@ -45,44 +45,38 @@ func (d *Deque) EnqueueB(x int) {
 }
 
 // dequeue front
-func (d *Deque) DequeueF() int {
+func (d *Deque) DequeueF() (int, bool) {
 	var x int
+	var ok bool
 	if d.front.len() == 0 {
-		// if d.back.len() != 1 {
-		// 	panic("stacks should be balanced")
-		// }
-		// var ok bool
-		x, _ = d.back.pop()
-		// if !ok {
-		// 	panic("programmer error")
-		// }
+		x, ok = d.back.pop()
 	} else {
-		x, _ = d.front.pop()
+		x, ok = d.front.pop()
+	}
+	if !ok {
+		return 0, false
 	}
 	d.balance()
-	return x
+	return x, true
 }
 
 // dequeue back
-func (d *Deque) DequeueB() int {
+func (d *Deque) DequeueB() (int, bool) {
 	var x int
+	var ok bool
 	if d.back.len() == 0 {
-		// if d.front.len() != 1 {
-		// 	panic("stacks should be balanced")
-		// }
-		// var ok bool
-		x, _ = d.front.pop()
-		// if !ok {
-		// 	panic("programmer error")
-		// }
+		x, ok = d.front.pop()
 	} else {
-		x, _ = d.back.pop()
+		x, ok = d.back.pop()
+	}
+	if !ok {
+		return 0, false
 	}
 	d.balance()
-	return x
+	return x, true
 }
 
-// balance stacks
+// balance stacks if needed
 func (d *Deque) balance() {
 	small, big := order(&d.front, &d.back)
 	if small.len() == 0 && big.len() == 1 {
@@ -90,12 +84,12 @@ func (d *Deque) balance() {
 	}
 	if 3*d.front.len() < d.back.len() ||
 		3*d.back.len() < d.front.len() {
-		d.doBalance()
+		d.rebalance()
 	}
 }
 
-// doBalance: balance() helper function: O(n)
-func (d *Deque) doBalance() {
+// rebalance stacks
+func (d *Deque) rebalance() {
 	small, big := order(&d.front, &d.back)
 	half := (small.len() + big.len()) / 2
 	tmpB := &stack{}
@@ -114,13 +108,15 @@ func order(a, b *stack) (smallest, bigest *stack) {
 	return b, a
 }
 
-// mv n items from dst and push to src
+// mvN: move n items from dst and push to src
 func mvN(dst, src *stack, n int) {
 	for i := 0; i < n; i++ {
 		x, _ := src.pop()
 		dst.push(x)
 	}
 }
+
+// mvAll: move all items from src to dst
 
 func mvAll(dst, src *stack) {
 	mvN(dst, src, src.len())
