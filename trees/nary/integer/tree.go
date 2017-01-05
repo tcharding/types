@@ -27,8 +27,8 @@ func (n *Node) AddChild(k int) *Node {
 
 // AddChildNode: Add child to n.
 func (n *Node) AddChildNode(child *Node) {
-	(*child).nextSibling = n.firstChild
-	(*n).firstChild = child
+	child.nextSibling = n.firstChild
+	n.firstChild = child
 }
 
 // Size of tree rooted at n.

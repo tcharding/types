@@ -25,23 +25,19 @@ func (g *Graph) AddEdge(u, v int) {
 }
 
 func (g *Graph) adjacentEdgesExample() {
-	u := 0 // example node label.
+	u := 0 // Example node label.
 
-	println("Printing all edges adjacent to 0")
-	// Loop over edges adjacent to node u.
+	fmt.Printf("Printing all edges adjacent to Node: %d\n", u)
 	for _, v := range g.Edges[u] {
 		// Edge exists from u to v.
 		fmt.Printf("Edge: %d -> %d\n", u, v)
 	}
-	println()
 
-	println("Printing all edges.")
-	// Loop over all edges.
+	fmt.Println("Printing all edges in graph.")
 	for u, adjacent := range g.Edges { // Nodes are labelled 0 to N-1.
 		for _, v := range adjacent {
 			// Edge exists from u to v.
 			fmt.Printf("Edge: %d -> %d\n", u, v)
 		}
 	}
-	println()
 }

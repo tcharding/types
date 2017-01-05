@@ -31,21 +31,17 @@ func (g *Graph) AddEdge(u, v, w int) {
 }
 
 func (g *Graph) adjacentEdgesExample() {
-	u := 0 // example node label.
+	u := 0 // Example node label.
 
 	fmt.Printf("Printing all edges adjacent to %d\n", u)
-	// Loop over edges adjacent to node u.
 	for _, e := range g.Edges[u] {
 		fmt.Printf("Edge: %d -> %d (%d)\n", e.From, e.To, e.Weight)
 	}
-	fmt.Println()
 
-	fmt.Println("Printing all edges.")
-	// Loop over all edges.
+	fmt.Println("Printing all edges in graph.")
 	for _, adjacent := range g.Edges {
 		for _, e := range adjacent {
 			fmt.Printf("Edge: %d -> %d (%d)\n", e.From, e.To, e.Weight)
 		}
 	}
-	fmt.Println()
 }
