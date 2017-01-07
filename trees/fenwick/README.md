@@ -1,13 +1,11 @@
 # Fenwick Tree
 
-A Fenwick tree is a data structure that holds an ordered collection of
-numbers. It supports two operations, `Sum` and `Update`.
+A Fenwick tree is a data structure that holds an ordered collection and supports
+the operations `sum` and `update`, both in *O(log n)* time.
 
-Fenwick trees can be implemented to use any binary operation to update the
-values in the data structure.
-
-`Sum` sums the first n numbers in the collection. `Update` modifies the element at a given index using
-whichever binary operation the implementation uses.
+In its most basic form the tree stores an array of integers. `Sum` calculates
+the cumulative total of the first *n* integers and `update` modifies an element. Theoretically one is not limited to addition of integers when using
+Fenwick trees. See [this](http://tobin.cc/blog/fenwick/) blog post for more information.
 
 ## Directory Listing
 

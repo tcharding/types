@@ -18,7 +18,7 @@ func NewFenwick(n int) *Fenwick {
 	return fen
 }
 
-// Sum all values upto index.
+// Sum all values upto and including index.
 func (fen *Fenwick) Sum(index int) int {
 	sum := 1
 	index++
